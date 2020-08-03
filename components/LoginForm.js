@@ -1,9 +1,10 @@
 import React, {useState, useCallback} from 'react'
+import PropTypes from 'prop-types'
 import {Form, Input, Button} from 'antd'
 import Link from 'next/link'
 import styled from 'styled-components'
 
-const LoginForm = () => {
+const LoginForm = ({setIsLoggedIn}) => {
 
     const [id, setId] = useState('')
     const [password, setPassword] = useState('')
@@ -16,8 +17,13 @@ const LoginForm = () => {
         setPassword(e.target.value)
     }, [])
 
+    const onSubmitForm = useCallback(() => {
+        console.log("onSubmitForm :: ", id, password)
+        setIsLoggedIn(true)
+    }, [id, password])
+
     return (
-        <Form>
+        <FormWrapper onFinish={onSubmitForm}>
             <div>
                 <label htmlFor="user-id">아이디</label>
                 <br/>
@@ -33,6 +39,7 @@ const LoginForm = () => {
                 <br/>
                 <Input
                     name="user-password"
+                    type="password"
                     value={password}
                     onChange={onChangePassword}
                     required
@@ -46,12 +53,20 @@ const LoginForm = () => {
                     </a>
                 </Link>
             </ButtonWrapper>
-        </Form>
+        </FormWrapper>
     )
 }
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
 `
+
+const FormWrapper = styled(Form)`
+  padding-left: 10px;
+`
+
+LoginForm.propTypes = {
+    setIsLoggedIn: PropTypes.func.isRequired,
+}
 
 export default LoginForm
