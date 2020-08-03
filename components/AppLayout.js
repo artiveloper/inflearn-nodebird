@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-import Menu from 'antd';
+import {
+    Menu
+} from 'antd';
 
 const AppLayout = ({children}) => {
     return (

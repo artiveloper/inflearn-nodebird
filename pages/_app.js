@@ -1,9 +1,22 @@
-import '../styles/globals.css'
+import React from 'react'
+import PropTypes from 'prop-types'
+import 'antd/dist/antd.css'
+import Head from 'next/head'
 
-// eslint-disable-next-line react/prop-types
-function MyApp({ Component, pageProps }) {
-    // eslint-disable-next-line react/react-in-jsx-scope
-  return <Component {...pageProps} />
+const NodeBird = ({Component}) => {
+    return (
+        <>
+            <Head>
+                <meta charSet='utf-8'/>
+                <title>NodeBird</title>
+            </Head>
+            <Component/>
+        </>
+    )
 }
 
-export default MyApp
+NodeBird.propTypes = {
+    Component: PropTypes.elementType.isRequired
+}
+
+export default NodeBird
