@@ -1,8 +1,8 @@
 import React from 'react'
 import AppLayout from '../components/AppLayout'
 import {useSelector} from 'react-redux';
-import PostForm from '../components/PostForm';
-import PostCard from '../components/PostCard';
+import PostForm from '../components/post/PostForm';
+import PostCard from '../components/post/PostCard';
 
 const Home = () => {
 

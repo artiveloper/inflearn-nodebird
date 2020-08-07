@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import {
     Card,
     Popover,
-    Button, Avatar
+    Button,
+    Avatar,
+    List,
+    Comment
 } from 'antd';
 import {
     RetweetOutlined,
@@ -14,6 +17,7 @@ import {
 } from '@ant-design/icons'
 import {useSelector} from 'react-redux';
 import PostImages from './PostImages';
+import CommentForm from './CommentForm';
 
 const PostCard = ({post}) => {
 
@@ -68,7 +72,21 @@ const PostCard = ({post}) => {
             {
                 commentForOpened && (
                     <div>
-                        댓글 부분
+                        <CommentForm post={post}/>
+                        <List
+                            header={`${post.Comments.length}개의 댓글`}
+                            itemLayout="horizontal"
+                            dataSource={post.Comments}
+                            renderItem={(item) => (
+                                <li>
+                                    <Comment
+                                        author={item.User.nickname}
+                                        avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+                                        content={item.content}
+                                    />
+                                </li>
+                            )}
+                        />
                     </div>
                 )
             }

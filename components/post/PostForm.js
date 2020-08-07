@@ -5,7 +5,7 @@ import {
     Input
 } from 'antd'
 import {useDispatch, useSelector} from 'react-redux';
-import {addPost} from '../reducers/post';
+import {addPost} from '../../reducers/post';
 
 const PostForm = () => {
 
