@@ -47,6 +47,7 @@ const dummyPost = {
         id: 1,
         nickname: 'artiveloper'
     },
+    content: '더미데이터입니다.',
     Images: [],
     Comments: [],
 }
