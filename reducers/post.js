@@ -1,3 +1,5 @@
+import {LOG_IN_FAILURE, LOG_IN_REQUEST, LOG_IN_SUCCESS} from './user';
+
 export const initialState = {
     mainPosts: [
         {
@@ -31,14 +33,30 @@ export const initialState = {
             ]
         }
     ],
+    // 게시글 등록
+    addPostLoading: false,
+    addPostDone: false,
+    addPostError: null,
+
+    // 댓글 등록
+    addCommentLoading: false,
+    addCommentDone: false,
+    addCommentError: null,
+
     imagePaths: [],
     postAdded: false,
 }
 
-const ADD_POST = 'ADD_POST'
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
+export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
+
+export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST'
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS'
+export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE'
 
 export const addPost = {
-    type: ADD_POST
+    type: ADD_POST_REQUEST
 }
 
 const dummyPost = {
@@ -54,11 +72,54 @@ const dummyPost = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_POST:
+        // 게시글 등록
+        case ADD_POST_REQUEST: {
             return {
                 ...state,
-                mainPosts: [dummyPost, ...state.mainPosts]
+                addPostLoading: true,
+                addPostDone: false,
+                addPostError: null,
             }
+        }
+        case ADD_POST_SUCCESS: {
+            return {
+                ...state,
+                mainPosts: [dummyPost, ...state.mainPosts],
+                addPostLoading: false,
+                addPostDone: true,
+            }
+        }
+        case ADD_POST_FAILURE: {
+            return {
+                ...state,
+                addPostLoading: false,
+                addPostError: action.error,
+            }
+        }
+
+        // 댓글 등록
+        case ADD_COMMENT_REQUEST: {
+            return {
+                ...state,
+                addCommentLoading: true,
+                addCommentDone: false,
+                addCommentError: null,
+            }
+        }
+        case ADD_COMMENT_SUCCESS: {
+            return {
+                ...state,
+                addCommentLoading: false,
+                addCommentDone: true,
+            }
+        }
+        case ADD_COMMENT_FAILURE: {
+            return {
+                ...state,
+                addCommentLoading: false,
+                addCommentError: action.error,
+            }
+        }
         default:
             return state;
     }
