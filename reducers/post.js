@@ -1,5 +1,3 @@
-import {LOG_IN_FAILURE, LOG_IN_REQUEST, LOG_IN_SUCCESS} from './user';
-
 export const initialState = {
     mainPosts: [
         {
