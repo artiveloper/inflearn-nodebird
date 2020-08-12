@@ -53,20 +53,26 @@ export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST'
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS'
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE'
 
-export const addPost = {
+export const addPost = (data) => ({
     type: ADD_POST_REQUEST,
-}
+    data,
+})
 
-const dummyPost = {
+export const addComment = (data) => ({
+    ADD_COMMENT_REQUEST,
+    data,
+})
+
+const dummyPost = (data) => ({
     id: 2,
     User: {
         id: 1,
         nickname: 'artiveloper',
     },
-    content: '더미데이터입니다.',
+    content: data,
     Images: [],
     Comments: [],
-}
+})
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -82,7 +88,7 @@ const reducer = (state = initialState, action) => {
     case ADD_POST_SUCCESS: {
         return {
             ...state,
-            mainPosts: [dummyPost, ...state.mainPosts],
+            mainPosts: [dummyPost(action.data), ...state.mainPosts],
             addPostLoading: false,
             addPostDone: true,
         }
@@ -118,6 +124,7 @@ const reducer = (state = initialState, action) => {
             addCommentError: action.error,
         }
     }
+
     default:
         return state
     }

@@ -27,13 +27,11 @@ function* login(action) {
 function* logout() {
     try {
         // const result = yield call(logoutApi)
-        console.log('before logout delay')
         yield delay(1000)
         yield put({
             type: LOG_OUT_SUCCESS,
             // data: result.data
         })
-        console.log('after logout delay')
     } catch (err) {
         yield put({
             type: LOG_OUT_FAILURE,

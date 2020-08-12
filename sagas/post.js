@@ -17,15 +17,16 @@ function addCommentApi(data) {
     return axios.post('/api/post', data)
 }
 
-function* addPost() {
+function* addPost(action) {
     try {
         // const result = yield call(addPostApi)
         delay(1000)
         yield put({
             type: ADD_POST_SUCCESS,
-            // data: result.data
+            data: action.data,
         })
     } catch (err) {
+        console.log(err.response.data)
         yield put({
             type: ADD_POST_FAILURE,
             error: err.response.data,
@@ -48,7 +49,7 @@ function* addComment() {
         })
     }
 }
-
+``
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost)
 }
