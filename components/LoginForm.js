@@ -7,7 +7,7 @@ import { loginRequestAction } from '../reducers/user'
 
 const LoginForm = () => {
     const dispatch = useDispatch()
-    const { loginDone } = useSelector((state) => state.user)
+    const { logInLoading } = useSelector((state) => state.user)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -50,7 +50,7 @@ const LoginForm = () => {
                 />
             </div>
             <ButtonWrapper>
-                <Button type="primary" htmlType="submit" loading={loginDone}>로그인</Button>
+                <Button type="primary" htmlType="submit" loading={logInLoading}>로그인</Button>
                 <Link href="/signup">
                     <a>
                         <Button>회원가입</Button>
