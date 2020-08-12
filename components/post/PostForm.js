@@ -17,8 +17,10 @@ const PostForm = () => {
     const { imagePaths, addPostDone } = useSelector((state) => state.post)
 
     useEffect(() => {
-        if (addPostDone) setText('')
-    }, addPostDone)
+        if (addPostDone) {
+            setText('')
+        }
+    }, [addPostDone])
 
     const onSubmit = useCallback(() => {
         dispatch(addPost(text))
