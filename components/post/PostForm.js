@@ -1,28 +1,28 @@
-import React, {useCallback, useRef, useState} from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import {
     Button,
     Form,
-    Input
+    Input,
 } from 'antd'
-import {useDispatch, useSelector} from 'react-redux';
-import {addPost} from '../../reducers/post';
+import { useDispatch, useSelector } from 'react-redux'
+import { addPost } from '../../reducers/post'
+import useInput from '../../hooks/useInput'
 
 const PostForm = () => {
+    const [text, onChangeText, setText] = useInput('')
 
-    const [text, setText] = useState('')
     const imageInput = useRef()
 
     const dispatch = useDispatch()
-    const {imagePaths} = useSelector((state) => state.post)
+    const { imagePaths, addPostDone } = useSelector((state) => state.post)
 
-    const onChangeText = useCallback((e) => {
-        setText(e.target.value)
-    }, [])
+    useEffect(() => {
+        if (addPostDone) setText('')
+    }, addPostDone)
 
     const onSubmit = useCallback(() => {
-        dispatch(addPost)
-        setText('')
-    }, [])
+        dispatch(addPost(text))
+    }, [text])
 
     const onClickImageUpload = useCallback(() => {
         imageInput.current.click()
@@ -30,7 +30,7 @@ const PostForm = () => {
 
     return (
         <Form
-            style={{margin: '10px 0 20px'}}
+            style={{ margin: '10px 0 20px' }}
             encType="multipart/form-data"
             onFinish={onSubmit}
         >
@@ -41,11 +41,11 @@ const PostForm = () => {
                 placeholder="어떤 신기한 일이 있나요?"
             />
             <div>
-                <input type="file" multiple hidden ref={imageInput}/>
+                <input type="file" multiple hidden ref={imageInput} />
                 <Button onClick={onClickImageUpload}>이미지 업로드</Button>
                 <Button
                     type="primary"
-                    style={{float: 'right'}}
+                    style={{ float: 'right' }}
                     htmlType="submit"
                 >
                     짹짹
@@ -53,9 +53,9 @@ const PostForm = () => {
             </div>
             <div>
                 {
-                    imagePaths.map(image => (
-                        <div key={image} style={{display: 'inline-block'}}>
-                            <img src={image} style={{width: '200px'}} alt={image} />
+                    imagePaths.map((image) => (
+                        <div key={image} style={{ display: 'inline-block' }}>
+                            <img src={image} style={{ width: '200px' }} alt={image} />
                             <div>
                                 <Button>제거</Button>
                             </div>

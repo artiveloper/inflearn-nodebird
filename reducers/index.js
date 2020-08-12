@@ -1,5 +1,5 @@
-import {HYDRATE} from 'next-redux-wrapper'
-import {combineReducers} from 'redux';
+import { HYDRATE } from 'next-redux-wrapper'
+import { combineReducers } from 'redux'
 import user from './user'
 import post from './post'
 
@@ -7,15 +7,15 @@ const rootReducer = combineReducers({
     // for server-side rendering
     index: (state = {}, action) => {
         switch (action.type) {
-            case HYDRATE:
-                return {...state, ...action.payload}
+        case HYDRATE:
+            return { ...state, ...action.payload }
 
-            default:
-                return state;
+        default:
+            return state
         }
     },
     user,
-    post
+    post,
 })
 
 export default rootReducer

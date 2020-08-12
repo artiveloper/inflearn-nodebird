@@ -1,4 +1,4 @@
-import {all, delay, put, fork, takeLatest} from 'redux-saga/effects';
+import { all, delay, put, fork, takeLatest } from 'redux-saga/effects'
 import {
     LOG_IN_REQUEST,
     LOG_IN_SUCCESS,
@@ -15,29 +15,29 @@ function* login(action) {
         yield put({
             type: LOG_IN_SUCCESS,
             data: action.data,
-        });
+        })
     } catch (err) {
         yield put({
             type: LOG_IN_FAILURE,
             error: err.response.data,
-        });
+        })
     }
 }
 
 function* logout() {
     try {
-        //const result = yield call(logoutApi)
+        // const result = yield call(logoutApi)
         console.log('before logout delay')
         yield delay(1000)
         yield put({
             type: LOG_OUT_SUCCESS,
-            //data: result.data
+            // data: result.data
         })
         console.log('after logout delay')
     } catch (err) {
         yield put({
             type: LOG_OUT_FAILURE,
-            error: err.response.data
+            error: err.response.data,
         })
     }
 }

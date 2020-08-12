@@ -4,32 +4,32 @@ export const initialState = {
             id: 1,
             User: {
                 id: 1,
-                nickname: 'artiveloper'
+                nickname: 'artiveloper',
             },
             content: '첫 번째 게시글 #해시태그 #익스프레스',
             Images: [
                 {
-                    src: 'https://cloudinary-res.cloudinary.com/image/upload/c_scale,f_auto,q_auto,w_550/v1589377391/website/home-redesign/cloudinary_web_homepage_product_highlights_api.png'
+                    src: 'https://cloudinary-res.cloudinary.com/image/upload/c_scale,f_auto,q_auto,w_550/v1589377391/website/home-redesign/cloudinary_web_homepage_product_highlights_api.png',
                 },
                 {
-                    src: 'https://cloudinary-res.cloudinary.com/image/upload/c_scale,f_auto,q_auto,w_550/v1589377391/website/home-redesign/cloudinary_web_homepage_product_highlights_api.png'
-                }
+                    src: 'https://cloudinary-res.cloudinary.com/image/upload/c_scale,f_auto,q_auto,w_550/v1589377391/website/home-redesign/cloudinary_web_homepage_product_highlights_api.png',
+                },
             ],
             Comments: [
                 {
                     User: {
-                        nickname: 'zerocho'
+                        nickname: 'zerocho',
                     },
-                    content: '이미지가 고퀄이네요.'
+                    content: '이미지가 고퀄이네요.',
                 },
                 {
                     User: {
-                        nickname: 'inflearn'
+                        nickname: 'inflearn',
                     },
-                    content: '잘만들고있네요.'
-                }
-            ]
-        }
+                    content: '잘만들고있네요.',
+                },
+            ],
+        },
     ],
     // 게시글 등록
     addPostLoading: false,
@@ -54,14 +54,14 @@ export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS'
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE'
 
 export const addPost = {
-    type: ADD_POST_REQUEST
+    type: ADD_POST_REQUEST,
 }
 
 const dummyPost = {
     id: 2,
     User: {
         id: 1,
-        nickname: 'artiveloper'
+        nickname: 'artiveloper',
     },
     content: '더미데이터입니다.',
     Images: [],
@@ -70,56 +70,56 @@ const dummyPost = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        // 게시글 등록
-        case ADD_POST_REQUEST: {
-            return {
-                ...state,
-                addPostLoading: true,
-                addPostDone: false,
-                addPostError: null,
-            }
+    // 게시글 등록
+    case ADD_POST_REQUEST: {
+        return {
+            ...state,
+            addPostLoading: true,
+            addPostDone: false,
+            addPostError: null,
         }
-        case ADD_POST_SUCCESS: {
-            return {
-                ...state,
-                mainPosts: [dummyPost, ...state.mainPosts],
-                addPostLoading: false,
-                addPostDone: true,
-            }
+    }
+    case ADD_POST_SUCCESS: {
+        return {
+            ...state,
+            mainPosts: [dummyPost, ...state.mainPosts],
+            addPostLoading: false,
+            addPostDone: true,
         }
-        case ADD_POST_FAILURE: {
-            return {
-                ...state,
-                addPostLoading: false,
-                addPostError: action.error,
-            }
+    }
+    case ADD_POST_FAILURE: {
+        return {
+            ...state,
+            addPostLoading: false,
+            addPostError: action.error,
         }
+    }
 
-        // 댓글 등록
-        case ADD_COMMENT_REQUEST: {
-            return {
-                ...state,
-                addCommentLoading: true,
-                addCommentDone: false,
-                addCommentError: null,
-            }
+    // 댓글 등록
+    case ADD_COMMENT_REQUEST: {
+        return {
+            ...state,
+            addCommentLoading: true,
+            addCommentDone: false,
+            addCommentError: null,
         }
-        case ADD_COMMENT_SUCCESS: {
-            return {
-                ...state,
-                addCommentLoading: false,
-                addCommentDone: true,
-            }
+    }
+    case ADD_COMMENT_SUCCESS: {
+        return {
+            ...state,
+            addCommentLoading: false,
+            addCommentDone: true,
         }
-        case ADD_COMMENT_FAILURE: {
-            return {
-                ...state,
-                addCommentLoading: false,
-                addCommentError: action.error,
-            }
+    }
+    case ADD_COMMENT_FAILURE: {
+        return {
+            ...state,
+            addCommentLoading: false,
+            addCommentError: action.error,
         }
-        default:
-            return state;
+    }
+    default:
+        return state
     }
 }
 

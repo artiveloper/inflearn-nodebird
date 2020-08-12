@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Slick from 'react-slick'
 import {
@@ -8,11 +8,10 @@ import {
     CloseButton,
     SlickWrapper,
     ImageWrapper,
-    Indicator
-} from './styles';
+    Indicator,
+} from './styles'
 
-const ImagesZoom = ({images, onClose}) => {
-
+const ImagesZoom = ({ images, onClose }) => {
     const [currentSlide, setCurrentSlide] = useState(0)
 
     return (
@@ -32,7 +31,7 @@ const ImagesZoom = ({images, onClose}) => {
                         slidesToShow={1}
                         slidesToScroll={1}
                     >
-                        {images.map(image => (
+                        {images.map((image) => (
                             <ImageWrapper key={image.src}>
                                 <img src={image.src} alt={image.src} />
                             </ImageWrapper>
@@ -51,7 +50,7 @@ const ImagesZoom = ({images, onClose}) => {
 
 ImagesZoom.propTypes = {
     images: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
 }
 
 export default ImagesZoom
