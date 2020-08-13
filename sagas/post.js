@@ -20,7 +20,7 @@ function addCommentApi(data) {
 function* addPost(action) {
     try {
         // const result = yield call(addPostApi)
-        delay(1000)
+        yield delay(1000)
         yield put({
             type: ADD_POST_SUCCESS,
             data: action.data,
@@ -34,13 +34,13 @@ function* addPost(action) {
     }
 }
 
-function* addComment() {
+function* addComment(action) {
     try {
         // const result = yield call(addPostApi)
-        delay(1000)
+        yield delay(1000)
         yield put({
             type: ADD_COMMENT_SUCCESS,
-            // data: result.data
+            data: action.data,
         })
     } catch (err) {
         yield put({
@@ -49,7 +49,7 @@ function* addComment() {
         })
     }
 }
-``
+
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost)
 }

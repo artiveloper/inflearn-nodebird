@@ -14,7 +14,7 @@ const PostForm = () => {
     const imageInput = useRef()
 
     const dispatch = useDispatch()
-    const { imagePaths, addPostDone } = useSelector((state) => state.post)
+    const { imagePaths, addPostLoading, addPostDone } = useSelector((state) => state.post)
 
     useEffect(() => {
         if (addPostDone) {
@@ -49,6 +49,7 @@ const PostForm = () => {
                     type="primary"
                     style={{ float: 'right' }}
                     htmlType="submit"
+                    loading={addPostLoading}
                 >
                     짹짹
                 </Button>
