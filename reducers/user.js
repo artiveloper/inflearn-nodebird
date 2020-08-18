@@ -21,6 +21,14 @@ export const initialState = {
     changeNicknameDone: false,
     changeNicknameError: null,
 
+    followLoading: false, // 팔로우
+    followDone: false,
+    followError: null,
+
+    unFollowLoading: false, // 언팔로우
+    unFollowDone: false,
+    unFollowError: null,
+
     me: null,
     signUpData: {},
     loginData: {},
@@ -88,7 +96,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
         draft.logInError = action.error
         break
 
-    // 로그아웃
+        // 로그아웃
     case LOG_OUT_REQUEST:
         draft.logOutLoading = true
         draft.logOutDone = false
@@ -106,7 +114,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
         draft.logOutError = action.error
         break
 
-    // 회원가입
+        // 회원가입
     case SIGN_UP_REQUEST:
         draft.signUpLoading = true
         draft.signUpDone = false
@@ -124,7 +132,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
         draft.signUpError = action.error
         break
 
-    // 닉네임 변경
+        // 닉네임 변경
     case CHANGE_NICKNAME_REQUEST:
         draft.changeNicknameLoading = true
         draft.changeNicknameDone = false
@@ -140,6 +148,42 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case CHANGE_NICKNAME_FAILURE:
         draft.changeNicknameLoading = false
         draft.changeNicknameError = action.error
+        break
+
+        // 팔로우
+    case FOLLOW_REQUEST:
+        draft.followLoading = true
+        draft.followDone = false
+        draft.followError = null
+        break
+
+    case FOLLOW_SUCCESS:
+        draft.me.Followings.push({ id: action.data })
+        draft.followLoading = false
+        draft.followDone = true
+        break
+
+    case FOLLOW_FAILURE:
+        draft.followLoading = false
+        draft.followError = action.error
+        break
+
+        // 언팔로우
+    case UNFOLLOW_REQUEST:
+        draft.unFollowLoading = true
+        draft.unFollowDone = false
+        draft.unFollowError = null
+        break
+
+    case UNFOLLOW_SUCCESS:
+        draft.me.Followings = draft.me.Followings.filter((x) => x.id !== action.data)
+        draft.unFollowLoading = false
+        draft.unFollowDone = true
+        break
+
+    case UNFOLLOW_FAILURE:
+        draft.unFollowLoading = false
+        draft.unFollowError = action.error
         break
 
     case ADD_POST_TO_ME:
