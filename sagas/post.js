@@ -2,6 +2,9 @@ import { all, takeLatest, put, fork, delay } from 'redux-saga/effects'
 import * as axios from 'axios'
 import shortId from 'shortid'
 import {
+    LOAD_POSTS_REQUEST,
+    LOAD_POSTS_SUCCESS,
+    LOAD_POSTS_FAILURE,
     ADD_POST_REQUEST,
     ADD_POST_SUCCESS,
     ADD_POST_FAILURE,
@@ -13,6 +16,7 @@ import {
     ADD_COMMENT_REQUEST,
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_FAILURE,
+    generateDummyPosts,
 } from '../reducers/post'
 
 function addPostApi(data) {
@@ -25,6 +29,22 @@ function removePostApi(data) {
 
 function addCommentApi(data) {
     return axios.post('/api/post', data)
+}
+
+function* loadPosts() {
+    try {
+        yield delay(1000)
+        yield put({
+            type: LOAD_POSTS_SUCCESS,
+            data: generateDummyPosts(10),
+        })
+    } catch (err) {
+        console.log(err.response.data)
+        yield put({
+            type: LOAD_POSTS_FAILURE,
+            error: err.response.data,
+        })
+    }
 }
 
 function* addPost(action) {
@@ -89,6 +109,10 @@ function* addComment(action) {
     }
 }
 
+function* watchLoadPosts() {
+    yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
+}
+
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost)
 }
@@ -103,6 +127,7 @@ function* watchAddComment() {
 
 export default function* rootSaga() {
     yield all([
+        fork(watchLoadPosts),
         fork(watchAddPost),
         fork(watchRemovePost),
         fork(watchAddComment),
