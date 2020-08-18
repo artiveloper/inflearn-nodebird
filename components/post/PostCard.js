@@ -15,16 +15,23 @@ import {
     MessageOutlined,
     EllipsisOutlined,
 } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import {
+    useDispatch,
+    useSelector,
+} from 'react-redux'
 import PostImages from './PostImages'
 import CommentForm from './CommentForm'
 import PostCardContent from './PostCardContent'
+import { REMOVE_POST_REQUEST } from '../../reducers/post'
 
 const PostCard = ({ post }) => {
+    const dispath = useDispatch()
+
     const [liked, setLiked] = useState(false)
     const [commentForOpened, setCommentForOpened] = useState(false)
 
     const { me } = useSelector((state) => state.user)
+    const { removePostLoading } = useSelector((state) => state.post)
     const id = me && me.id // == me?.id
 
     const onToggleLike = useCallback(() => {
@@ -34,6 +41,13 @@ const PostCard = ({ post }) => {
     const onToggleComment = useCallback(() => {
         setCommentForOpened((prev) => !prev)
     })
+
+    const onRemovePost = useCallback(() => {
+        dispath({
+            type: REMOVE_POST_REQUEST,
+            data: post.id,
+        })
+    }, [])
 
     return (
         <div style={{ marginBottom: 20 }}>
@@ -47,14 +61,14 @@ const PostCard = ({ post }) => {
                     <MessageOutlined key="comment" onClick={onToggleComment} />,
                     <Popover
                         key="more"
-                        cotent={(
+                        content={(
                             <Button.Group>
                                 {
                                     id && post.User.id === id
                                         ? (
                                             <>
                                                 <Button type="primary">수정</Button>
-                                                <Button type="danger">삭제</Button>
+                                                <Button type="danger" loading={removePostLoading} onClick={onRemovePost}>삭제</Button>
                                             </>
                                         )
                                         : <Button type="alert">신고</Button>
@@ -99,7 +113,7 @@ const PostCard = ({ post }) => {
 
 PostCard.propTypes = {
     post: PropTypes.shape({
-        id: PropTypes.number,
+        id: PropTypes.string,
         User: PropTypes.object,
         content: PropTypes.string,
         createdAt: PropTypes.object,
