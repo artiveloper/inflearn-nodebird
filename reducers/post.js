@@ -1,12 +1,13 @@
 import shortId from 'shortid'
+import faker from 'faker'
 import produce from 'immer'
 
 export const initialState = {
     mainPosts: [
         {
-            id: 1,
+            id: shortId.generate(),
             User: {
-                id: 1,
+                id: shortId.generate(),
                 nickname: 'artiveloper',
             },
             content: '첫 번째 게시글 #해시태그 #익스프레스',
@@ -58,6 +59,27 @@ export const initialState = {
     imagePaths: [],
     postAdded: false,
 }
+
+initialState.mainPosts = initialState.mainPosts.concat(
+    Array(20).fill().map(() => ({
+        id: shortId.generate(),
+        User: {
+            id: shortId.generate(),
+            nickname: faker.name.findName(),
+        },
+        content: faker.lorem.paragraph(),
+        Images: [{
+            src: faker.image.image(),
+        }],
+        Comment: [{
+            User: {
+                id: shortId.generate(),
+                nickname: faker.name.findName(),
+            },
+            content: faker.lorem.sentence(),
+        }],
+    })),
+)
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
