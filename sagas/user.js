@@ -1,5 +1,4 @@
 import { all, delay, call, put, fork, takeLatest } from 'redux-saga/effects'
-import axios from 'axios'
 import {
     LOG_IN_REQUEST,
     LOG_IN_SUCCESS,
@@ -17,18 +16,17 @@ import {
     UNFOLLOW_SUCCESS,
     UNFOLLOW_FAILURE,
 } from '../reducers/user'
-
-function signUpApi(data) {
-    return axios.post('http://localhost:3000/user', data)
-}
+import {
+    signUpApi,
+    loginApi,
+} from '../apis/user.api'
 
 function* login(action) {
     try {
-        // const result = yield call(logInAPI);
-        yield delay(1000)
+        const result = yield loginApi(action.data)
         yield put({
             type: LOG_IN_SUCCESS,
-            data: action.data,
+            data: result.data,
         })
     } catch (err) {
         yield put({
