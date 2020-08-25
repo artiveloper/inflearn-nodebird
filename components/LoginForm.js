@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { Form, Input, Button } from 'antd'
 import Link from 'next/link'
 import styled from 'styled-components'
@@ -7,7 +7,7 @@ import { loginRequestAction } from '../reducers/user'
 
 const LoginForm = () => {
     const dispatch = useDispatch()
-    const { logInLoading } = useSelector((state) => state.user)
+    const { logInLoading, logInError } = useSelector((state) => state.user)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -24,6 +24,12 @@ const LoginForm = () => {
         console.log('onSubmitForm :: ', email, password)
         dispatch(loginRequestAction({ email, password }))
     }, [email, password])
+
+    useEffect(() => {
+        if (logInError) {
+            alert(logInError)
+        }
+    }, [logInError])
 
     return (
         <FormWrapper onFinish={onSubmitForm}>

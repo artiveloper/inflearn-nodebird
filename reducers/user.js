@@ -58,15 +58,6 @@ export const UNFOLLOW_REQUEST = 'UNFOLLOW_REQUEST'
 export const UNFOLLOW_SUCCESS = 'UNFOLLOW_SUCCESS'
 export const UNFOLLOW_FAILURE = 'UNFOLLOW_FAILURE'
 
-const dummyUser = (data) => ({
-    ...data,
-    nickname: 'artiveloper',
-    id: 1,
-    Posts: [{ id: 1 }],
-    Followings: [{ nickname: '닉네임1' }, { nickname: '닉네임2' }, { nickname: '닉네임3' }],
-    Followers: [{ nickname: '닉네임1' }, { nickname: '닉네임2' }, { nickname: '닉네임3' }],
-})
-
 export const loginRequestAction = (data) => ({
     type: LOG_IN_REQUEST,
     data,
@@ -88,7 +79,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case LOG_IN_SUCCESS:
         draft.logInLoading = false
         draft.logInDone = true
-        draft.me = dummyUser(action.data)
+        draft.me = action.data
         break
 
     case LOG_IN_FAILURE:
