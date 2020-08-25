@@ -78,17 +78,6 @@ export const addComment = (data) => ({
     data,
 })
 
-const dummyPost = (data) => ({
-    id: data.id,
-    User: {
-        id: 1,
-        nickname: 'artiveloper',
-    },
-    content: data.content,
-    Images: [],
-    Comments: [],
-})
-
 const dummyComment = (data) => ({
     id: shortId.generate(),
     content: data,
@@ -128,7 +117,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
         break
     }
     case ADD_POST_SUCCESS: {
-        draft.mainPosts.unshift(dummyPost(action.data))
+        draft.mainPosts.unshift(action.data)
         draft.addPostLoading = false
         draft.addPostDone = true
         break
