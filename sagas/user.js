@@ -19,6 +19,7 @@ import {
 import {
     signUpApi,
     loginApi,
+    logoutApi,
 } from '../apis/user.api'
 
 function* login(action) {
@@ -53,11 +54,9 @@ function* signUp(action) {
 
 function* logout() {
     try {
-        // const result = yield call(logoutApi)
-        yield delay(1000)
+        yield call(logoutApi)
         yield put({
             type: LOG_OUT_SUCCESS,
-            // data: result.data
         })
     } catch (err) {
         yield put({
