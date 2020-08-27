@@ -1,6 +1,5 @@
 import {all, call, takeLatest, put, fork, delay} from 'redux-saga/effects'
 import * as axios from 'axios'
-import shortId from 'shortid'
 import {
     LOAD_POSTS_REQUEST,
     LOAD_POSTS_SUCCESS,
@@ -16,23 +15,19 @@ import {
     ADD_COMMENT_REQUEST,
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_FAILURE,
-    generateDummyPosts,
 } from '../reducers/post'
 import {
     addPostApi,
     addCommentApi,
+    loadPostsApi,
 } from '../apis/post.api'
-
-function removePostApi(data) {
-    return axios.post('/api/post', data)
-}
 
 function* loadPosts() {
     try {
-        yield delay(1000)
+        const result = yield loadPostsApi()
         yield put({
             type: LOAD_POSTS_SUCCESS,
-            data: generateDummyPosts(10),
+            data: result.data,
         })
     } catch (err) {
         console.log(err.response.data)
@@ -46,17 +41,13 @@ function* loadPosts() {
 function* addPost(action) {
     try {
         const result = yield call(addPostApi, action.data)
-        console.log(result)
         yield put({
             type: ADD_POST_SUCCESS,
-            data: {
-                id: result.data.id,
-                content: result.data,
-            },
+            data: result.data,
         })
         yield put({
             type: ADD_POST_TO_ME,
-            id: result.data.id,
+            data: result.data.id,
         })
     } catch (err) {
         console.log(err.response.data)
@@ -96,6 +87,7 @@ function* addComment(action) {
             data: result.data,
         })
     } catch (err) {
+        console.log(err.response.data)
         yield put({
             type: ADD_COMMENT_FAILURE,
             error: err.response.data,

@@ -1,5 +1,4 @@
 import shortId from 'shortid'
-import faker from 'faker'
 import produce from 'immer'
 
 export const initialState = {
@@ -29,25 +28,6 @@ export const initialState = {
     imagePaths: [],
     postAdded: false,
 }
-
-export const generateDummyPosts = (number) => Array(number).fill().map(() => ({
-    id: shortId.generate(),
-    User: {
-        id: shortId.generate(),
-        nickname: faker.name.findName(),
-    },
-    content: faker.lorem.paragraph(),
-    Images: [{
-        src: faker.image.image(),
-    }],
-    Comments: [{
-        User: {
-            id: shortId.generate(),
-            nickname: faker.name.findName(),
-        },
-        content: faker.lorem.sentence(),
-    }],
-}))
 
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST'
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS'
@@ -155,8 +135,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
         break
     }
     case ADD_COMMENT_SUCCESS: {
-        const post = draft.mainPosts.find((p) => p.id === action.data.postId)
-        post.Comments.unshift(dummyComment(action.data.content))
+        const post = draft.mainPosts.find((p) => p.id === action.data.PostId)
+        post.Comments.unshift(action.data)
         draft.addCommentLoading = false
         draft.addCommentDone = true
         break
