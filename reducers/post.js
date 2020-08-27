@@ -58,15 +58,6 @@ export const addComment = (data) => ({
     data,
 })
 
-const dummyComment = (data) => ({
-    id: shortId.generate(),
-    content: data,
-    User: {
-        id: 1,
-        nickname: 'artiveloper@@',
-    },
-})
-
 const reducer = (state = initialState, action) => produce(state, (draft) => {
     switch (action.type) {
     // 게시글 조회
