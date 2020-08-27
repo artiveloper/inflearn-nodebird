@@ -5,6 +5,10 @@ import {
 } from './post'
 
 export const initialState = {
+    loadUserLoading: false, // 내정보 가져오기
+    loadUserDone: false,
+    loadUserError: null,
+
     logInLoading: false, // 로그인
     logInDone: false,
     logInError: null,
@@ -33,6 +37,10 @@ export const initialState = {
     signUpData: {},
     loginData: {},
 }
+
+export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
+export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
+export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE'
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST'
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS'
@@ -69,124 +77,142 @@ export const logoutRequestAction = () => ({
 
 const reducer = (state = initialState, action) => produce(state, (draft) => {
     switch (action.type) {
-    // 로그인
-    case LOG_IN_REQUEST:
-        draft.logInLoading = true
-        draft.logInDone = false
-        draft.logInError = null
-        break
+        // 내정보
+        case LOAD_USER_REQUEST:
+            draft.loadUserLoading = true
+            draft.loadUserDone = false
+            draft.loadUserError = null
+            break
 
-    case LOG_IN_SUCCESS:
-        draft.logInLoading = false
-        draft.logInDone = true
-        draft.me = action.data
-        break
+        case LOAD_USER_SUCCESS:
+            draft.loadUserLoading = false
+            draft.loadUserDone = true
+            draft.me = action.data
+            break
 
-    case LOG_IN_FAILURE:
-        draft.logInLoading = false
-        draft.logInError = action.error
-        break
+        case LOAD_USER_FAILURE:
+            draft.loadUserLoading = false
+            draft.loadUserError = action.error
+            break
+
+        // 로그인
+        case LOAD_USER_REQUEST:
+            draft.loadUserLoading = true
+            draft.loadUserDone = false
+            draft.loadUserError = null
+            break
+
+        case LOG_IN_SUCCESS:
+            draft.logInLoading = false
+            draft.logInDone = true
+            draft.me = action.data
+            break
+
+        case LOG_IN_FAILURE:
+            draft.logInLoading = false
+            draft.logInError = action.error
+            break
 
         // 로그아웃
-    case LOG_OUT_REQUEST:
-        draft.logOutLoading = true
-        draft.logOutDone = false
-        draft.logOutError = null
-        break
+        case LOG_OUT_REQUEST:
+            draft.logOutLoading = true
+            draft.logOutDone = false
+            draft.logOutError = null
+            break
 
-    case LOG_OUT_SUCCESS:
-        draft.logOutLoading = false
-        draft.logOutDone = true
-        draft.me = null
-        break
+        case LOG_OUT_SUCCESS:
+            draft.logOutLoading = false
+            draft.logOutDone = true
+            draft.me = null
+            break
 
-    case LOG_OUT_FAILURE:
-        draft.logOutLoading = false
-        draft.logOutError = action.error
-        break
+        case LOG_OUT_FAILURE:
+            draft.logOutLoading = false
+            draft.logOutError = action.error
+            break
 
         // 회원가입
-    case SIGN_UP_REQUEST:
-        draft.signUpLoading = true
-        draft.signUpDone = false
-        draft.signUpError = null
-        break
+        case SIGN_UP_REQUEST:
+            draft.signUpLoading = true
+            draft.signUpDone = false
+            draft.signUpError = null
+            break
 
-    case SIGN_UP_SUCCESS:
-        draft.signUpLoading = false
-        draft.signUpDone = true
-        draft.me = null
-        break
+        case SIGN_UP_SUCCESS:
+            draft.signUpLoading = false
+            draft.signUpDone = true
+            draft.me = null
+            break
 
-    case SIGN_UP_FAILURE:
-        draft.signUpLoading = false
-        draft.signUpError = action.error
-        break
+        case SIGN_UP_FAILURE:
+            draft.signUpLoading = false
+            draft.signUpError = action.error
+            break
 
         // 닉네임 변경
-    case CHANGE_NICKNAME_REQUEST:
-        draft.changeNicknameLoading = true
-        draft.changeNicknameDone = false
-        draft.changeNicknameError = null
-        break
+        case CHANGE_NICKNAME_REQUEST:
+            draft.changeNicknameLoading = true
+            draft.changeNicknameDone = false
+            draft.changeNicknameError = null
+            break
 
-    case CHANGE_NICKNAME_SUCCESS:
-        draft.changeNicknameLoading = false
-        draft.changeNicknameDone = true
-        draft.me = null
-        break
+        case CHANGE_NICKNAME_SUCCESS:
+            draft.changeNicknameLoading = false
+            draft.changeNicknameDone = true
+            draft.me = null
+            break
 
-    case CHANGE_NICKNAME_FAILURE:
-        draft.changeNicknameLoading = false
-        draft.changeNicknameError = action.error
-        break
+        case CHANGE_NICKNAME_FAILURE:
+            draft.changeNicknameLoading = false
+            draft.changeNicknameError = action.error
+            break
 
         // 팔로우
-    case FOLLOW_REQUEST:
-        draft.followLoading = true
-        draft.followDone = false
-        draft.followError = null
-        break
+        case FOLLOW_REQUEST:
+            draft.followLoading = true
+            draft.followDone = false
+            draft.followError = null
+            break
 
-    case FOLLOW_SUCCESS:
-        draft.me.Followings.push({ id: action.data })
-        draft.followLoading = false
-        draft.followDone = true
-        break
+        case FOLLOW_SUCCESS:
+            draft.me.Followings.push({id: action.data})
+            draft.followLoading = false
+            draft.followDone = true
+            break
 
-    case FOLLOW_FAILURE:
-        draft.followLoading = false
-        draft.followError = action.error
-        break
+        case FOLLOW_FAILURE:
+            draft.followLoading = false
+            draft.followError = action.error
+            break
 
         // 언팔로우
-    case UNFOLLOW_REQUEST:
-        draft.unFollowLoading = true
-        draft.unFollowDone = false
-        draft.unFollowError = null
-        break
+        case UNFOLLOW_REQUEST:
+            draft.unFollowLoading = true
+            draft.unFollowDone = false
+            draft.unFollowError = null
+            break
 
-    case UNFOLLOW_SUCCESS:
-        draft.me.Followings = draft.me.Followings.filter((x) => x.id !== action.data)
-        draft.unFollowLoading = false
-        draft.unFollowDone = true
-        break
+        case UNFOLLOW_SUCCESS:
+            draft.me.Followings = draft.me.Followings.filter((x) => x.id !== action.data)
+            draft.unFollowLoading = false
+            draft.unFollowDone = true
+            break
 
-    case UNFOLLOW_FAILURE:
-        draft.unFollowLoading = false
-        draft.unFollowError = action.error
-        break
+        case UNFOLLOW_FAILURE:
+            draft.unFollowLoading = false
+            draft.unFollowError = action.error
+            break
 
-    case ADD_POST_TO_ME:
-        draft.me.Posts.unshift({ id: action.data })
-        break
+        case ADD_POST_TO_ME:
+            draft.me.Posts.unshift({id: action.data})
+            break
 
-    case REMOVE_POST_TO_ME:
-        draft.me.Posts = draft.me.Posts.filter((p) => p.id !== action.data)
-        break
+        case REMOVE_POST_TO_ME:
+            draft.me.Posts = draft.me.Posts.filter((p) => p.id !== action.data)
+            break
 
-    default:
-        break
+        default:
+            break
     }
 })
 

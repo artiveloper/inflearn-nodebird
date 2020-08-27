@@ -1,5 +1,8 @@
 import { all, delay, call, put, fork, takeLatest } from 'redux-saga/effects'
 import {
+    LOAD_USER_REQUEST,
+    LOAD_USER_SUCCESS,
+    LOAD_USER_FAILURE,
     LOG_IN_REQUEST,
     LOG_IN_SUCCESS,
     LOG_IN_FAILURE,
@@ -20,7 +23,23 @@ import {
     signUpApi,
     loginApi,
     logoutApi,
+    loadUserApi,
 } from '../apis/user.api'
+
+function* loadUser() {
+    try {
+        const result = yield loadUserApi()
+        yield put({
+            type: LOAD_USER_SUCCESS,
+            data: result.data,
+        })
+    } catch (err) {
+        yield put({
+            type: LOAD_USER_FAILURE,
+            error: err.response.data,
+        })
+    }
+}
 
 function* login(action) {
     try {
@@ -98,6 +117,10 @@ function* unFollow(action) {
     }
 }
 
+function* watchLoadUser() {
+    yield takeLatest(LOAD_USER_REQUEST, loadUser)
+}
+
 function* watchLogin() {
     yield takeLatest(LOG_IN_REQUEST, login)
 }
@@ -120,6 +143,7 @@ function* watchUnFollow() {
 
 export default function* userSaga() {
     yield all([
+        fork(watchLoadUser),
         fork(watchLogin),
         fork(watchSignUp),
         fork(watchLogout),
